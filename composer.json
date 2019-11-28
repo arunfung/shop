@@ -1,0 +1,13 @@
+{
+    "name": "arunfung/shop",
+    "description": "laravel shop",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arun Fung",
+            "email": "arunfung@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

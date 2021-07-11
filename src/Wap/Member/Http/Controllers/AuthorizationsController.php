@@ -8,9 +8,9 @@
 
 namespace ArunFung\Shop\Wap\Member\Http\Controllers;
 
+use ArunFung\Shop\Wap\Member\Support\Facades\Member;
 use Illuminate\Http\Request;
 use ArunFung\Shop\Wap\Member\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class AuthorizationsController extends Controller
 {
@@ -31,8 +31,8 @@ class AuthorizationsController extends Controller
             ]);
         }
 
-        Auth::guard('member')->login($user);
-        if (Auth::guard('member')->check()) {
+        Member::guard()->login($user);
+        if (Member::guard()->check()) {
             return "通过";
         }
        return "登录失败";

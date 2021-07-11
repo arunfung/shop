@@ -1,6 +1,7 @@
 <?php
 namespace ArunFung\Shop\Wap\Member\Providers;
 
+use ArunFung\Shop\Wap\Member\Member;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,9 @@ class MemberServiceProvider extends ServiceProvider
 {
     public function register()
     {
+        $this->app->singleton('member', function ($app) {
+            return new Member();
+        });
         // 注册组件路由
         $this->registerRoutes();
 

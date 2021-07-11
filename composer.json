@@ -9,5 +9,20 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {},
+    "replace":{
+        "arunfung/shop-wap-member": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
+            "ArunFung\\Shop\\": "src"
+        }
+    },
+    "extra":{
+        "laravel":{
+            "providers":[
+                "ArunFung\\Shop\\Wap\\Member\\Providers\\MemberServiceProvider"
+            ]
+        }
+    }
 }

@@ -1,0 +1,19 @@
+{
+    "name": "arunfung/shop-wap-member",
+    "description": "Package description here.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arun Fung",
+            "email": "arunfung@gmail.com"
+        }
+    ],
+    "require": {
+        "overtrue/laravel-wechat": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ArunFung\\Shop\\Wap\\Member\\": ""
+        }
+    }
+}

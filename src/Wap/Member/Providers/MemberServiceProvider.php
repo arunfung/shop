@@ -1,6 +1,7 @@
 <?php
 namespace ArunFung\Shop\Wap\Member\Providers;
 
+use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Arr;
@@ -18,12 +19,18 @@ class MemberServiceProvider extends ServiceProvider
 
         // 加载config配置文件
         $this->mergeConfigFrom(__DIR__.'/../Config/member.php', "wap.member");
+
+        $this->registerPublishing();
     }
 
     public function boot()
     {
         // 加载配置
-        $this->loadMemberAuthConfig();
+        $this->loadMemberConfig();
+        // 加载迁移文件
+        $this->loadMigrations();
+
+        $this->commands($this->commands);
     }
 
     // member组件需要注入的中间件
@@ -53,6 +60,14 @@ class MemberServiceProvider extends ServiceProvider
         });
     }
 
+    private function registerPublishing()
+    {
+        $source = realpath(__DIR__.'/../config');
+        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
+            $this->publishes([$source => config_path('wap')], 'laravel-shop-wap-member');
+        }
+    }
+
     // 加载路由配置
     private function routeConfiguration()
     {
@@ -69,8 +84,22 @@ class MemberServiceProvider extends ServiceProvider
     }
 
     // 加载自定义配置
-    protected function loadMemberAuthConfig()
+    protected function loadMemberConfig()
     {
+        // 加载 member.wechat 配置到 wechat
+        config(Arr::dot(config('wap.member.wechat', []), 'wechat.'));
+        // 加载 member.auth 到 auth guard
         config(Arr::dot(config('wap.member.auth', []), 'auth.'));
+    }
+
+    protected $commands = [
+        \ArunFung\Shop\Wap\Member\Console\Commands\InstallCommand::class
+    ];
+
+    public function loadMigrations()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
+        }
     }
 }
